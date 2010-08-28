@@ -1,3 +1,10 @@
+/**
+ * This nodejs script monitors a given directory. If new files appear, the public URL is displayed.
+ *
+ * @author  Till Klampaeckel <till@php.net>
+ * @license New BSD License
+ */
+
 var sys = require('sys'),
     path = require('path'),
     exec = require('child_process').exec;
@@ -21,8 +28,8 @@ exports.openUrl = function (url, browser) {
     var foo;
     foo = exec(browser + ' "' + url + '"', 
         function (error, stdout, stderr) {
-            sys.print('stdout: ' + stdout);
-            sys.print('stderr: ' + stderr);
+            //sys.print('stdout: ' + stdout);
+            //sys.print('stderr: ' + stderr);
             if (error !== null) {
                 console.log('exec error: ' + error);
             }
