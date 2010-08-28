@@ -1,7 +1,18 @@
-var sys = require('sys');
+var sys = require('sys'), path = require('path');
 
 exports.filter = function (files) {
     return files.filter(ignoreByPattern);
+}
+
+exports.validateStore = function (p) {
+    path.exists(p, function (exists) {
+        if (exists == false) {
+            throw "Path "+ p + " does not exist.";
+        }
+    });
+    if (p.substr(-1, 1) == '/') {
+        throw "No trailing slash.";
+    }
 }
 
 /**
