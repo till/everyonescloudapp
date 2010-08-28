@@ -39,9 +39,12 @@ fs.watchFile(screenshotPath, function (curr, prev) {
 
     var reallyNew = newFiles.getDiff(allFiles);
 
-    for (var x in reallyNew) {
-        cloudapp.openUrl(publicUrl + reallyNew[x], config.getBrowser());
-    }
+    // allow 10 seconds for the files to upload
+    setTimeout(function(){
+        for (var x = 0; x < reallyNew.length; x++) {
+            cloudapp.openUrl(publicUrl + reallyNew[x], config.getBrowser());
+        }
+    }, 10000);
 });
 
 
