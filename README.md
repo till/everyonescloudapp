@@ -14,7 +14,7 @@ Even though I wrote this today, this is not an official [node.js knockout][ko] p
 
  * install [node.js][nodejs]
  * `git clone` this repository
- * go into `etc/` edit and rename `config.js-dist` to `config.js`
+ * go into `etc/`, edit and rename `config.js-dist` to `config.js`
  * start: `node node.js`
 
 I tested this on Ubuntu 10.04, with Google Chrome and obviously a working Dropbox account. :-)
