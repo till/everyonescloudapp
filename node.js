@@ -49,17 +49,36 @@ fs.watchFile(screenshotPath, function (curr, prev) {
 });
 
 function Application () {
+    this.config;
     this.url;
 }
 
+/**
+ * Inherit.
+ */
 Application.prototype = new process.EventEmitter();
 
+/**
+ * Handle all new files. We'll attempt to shorten them with bit.ly.
+ *
+ * When done we emit 'shortened' - always.
+ *
+ * @param array reallyNew
+ *
+ * @return void
+ */
 Application.prototype.handleNew = function (reallyNew) {
+
     for (var x = 0; x < reallyNew.length; x++) {
 
         this.url = publicUrl + reallyNew[x];
 
-        var shortie = bitly.shorten(publicUrl + reallyNew[x], config.getBitlyLogin(), config.getBitlyKey());
+        var shortie = bitly.shorten(
+            this.url,
+            this.config.getBitlyLogin(),
+            this.config.getBitlyKey()
+        );
+
         if (shortie == '') {
             this.url = shortie;
         }
@@ -68,7 +87,19 @@ Application.prototype.handleNew = function (reallyNew) {
     }
 }
 
+/**
+ * Set the config.
+ *
+ * @param config config
+ *
+ * @return void
+ */
+Application.prototype.setConfig = function (config) {
+    this.config = config;
+}
+
 var app = new Application();
+app.setConfig(config);
 app.on('shortened', function() {
     cloudapp.openUrl(this.url, config.getBrowser());
 });
