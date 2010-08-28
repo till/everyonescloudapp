@@ -26,3 +26,21 @@ exports.getPath = function () {
 exports.getBrowser = function () {
     return "/opt/google/chrome/chrome";
 }
+
+/**
+ * Your bit.ly username.
+ *
+ * @return string
+ */
+exports.getBitlyLogin = function () {
+    return "username";
+}
+
+/**
+ * Your bit.ly api key
+ *
+ * @return string
+ */
+exports.getBitlyKey = function () {
+    return "apikey";
+}
