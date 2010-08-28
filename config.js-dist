@@ -1,0 +1,28 @@
+/**
+ * This is your Dropbox user id.
+ *
+ * @return int
+ */
+exports.dropboxUser = function () {
+    return USERIDHERE;
+}
+
+/**
+ * This is the URL to your local Dropbox folder.
+ *
+ * Avoid using "~/" and a trailing slash.
+ *
+ * @return string
+ */
+exports.getPath = function () {
+    return "/home/YOURUSERNAMEHERE/Dropbox/Public/screenshots";
+}
+
+/**
+ * Your default browser.
+ *
+ * @return string
+ */
+exports.getBrowser = function () {
+    return "/opt/google/chrome/chrome";
+}
