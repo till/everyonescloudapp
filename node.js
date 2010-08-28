@@ -6,8 +6,8 @@
  */
 var fs = require('fs'), path = require('path'), sys = require('sys');
 
-var cloudapp = require('./everyonescloudapp');
-var config   = require('./config');
+var cloudapp = require('./lib/everyonescloudapp');
+var config   = require('./etc/config');
 
 var screenshotPath = config.getPath();
 
