@@ -33,27 +33,17 @@ fs.watchFile(screenshotPath, function (curr, prev) {
     newFiles = fs.readdirSync(screenshotPath);
     newFiles = cloudapp.filter(newFiles);
 
-    //sys.puts("All: " + allFiles);
-    //sys.puts("New: " + newFiles);
-
     if (allFiles.compare(newFiles) == true) { 
         return;
     }
 
-    var reallyNew = newFiles.diff(allFiles);
+    var reallyNew = newFiles.getDiff(allFiles);
 
-    sys.puts("NEW FILE(S)!");
-
-    for (var i in reallyNew) {
-        sys.puts("NEW: " + publicUrl + reallyNew[i]);
+    for (var x in reallyNew) {
+        cloudapp.openUrl(publicUrl + reallyNew[x], config.getBrowser());
     }
-
-    //sys.puts('current mtime is: ' + curr.mtime);
-    //sys.puts('previous mtime was: ' + prev.mtime);
 });
 
-
-/* list = fs.readdir(screenshotPath); */
 
 /* helpers */
 
@@ -66,12 +56,20 @@ fs.watchFile(screenshotPath, function (curr, prev) {
  * @link   http://www.hunlock.com/blogs/Mastering_Javascript_Arrays
  */
 Array.prototype.compare = function(testArr) {
-    if (this.length != testArr.length) return false;
+
+    if (this.length != testArr.length) {
+        return false;
+    }
+
     for (var i = 0; i < testArr.length; i++) {
         if (this[i].compare) { 
-            if (!this[i].compare(testArr[i])) return false;
+            if (!this[i].compare(testArr[i])) {
+                return false;
+            }
         }
-        if (this[i] !== testArr[i]) return false;
+        if (this[i] !== testArr[i]) {
+            return false;
+        }
     }
     return true;
 }
@@ -83,7 +81,7 @@ Array.prototype.compare = function(testArr) {
  *
  * @return array
  */
-Array.prototype.diff = function(testArr) {
+Array.prototype.getDiff = function (testArr) {
 
     if (this.length == 0) {
         return testArr;
@@ -91,16 +89,16 @@ Array.prototype.diff = function(testArr) {
 
     var lookup = {};
 
-    for (var j in testArr) {
+    for (var j = 0; j < testArr.length; j++) {
         lookup[testArr[j]] = testArr[j];
     }
 
     var difference = [];
 
-    for (var i in this) {
+    for (var y =0; y < this.length; y++) {
 
-        if (typeof lookup[this[i]] == 'undefined') {
-            difference.push(this[i]);
+        if (typeof lookup[this[y]] == 'undefined') {
+            difference.push(this[y]);
         } 
     }
 
