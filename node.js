@@ -8,6 +8,7 @@ var fs = require('fs'), path = require('path'), sys = require('sys');
 
 var cloudapp = require('./lib/everyonescloudapp');
 var config   = require('./etc/config');
+var bitly    = require('./lib/bit.ly.js');
 
 var screenshotPath = config.getPath();
 
@@ -41,10 +42,35 @@ fs.watchFile(screenshotPath, function (curr, prev) {
 
     // allow 10 seconds for the files to upload
     setTimeout(function(){
-        for (var x = 0; x < reallyNew.length; x++) {
-            cloudapp.openUrl(publicUrl + reallyNew[x], config.getBrowser());
-        }
+        app.handleNew(reallyNew);
     }, 10000);
+
+    
+});
+
+function Application () {
+    this.url;
+}
+
+Application.prototype = new process.EventEmitter();
+
+Application.prototype.handleNew = function (reallyNew) {
+    for (var x = 0; x < reallyNew.length; x++) {
+
+        this.url = publicUrl + reallyNew[x];
+
+        var shortie = bitly.shorten(publicUrl + reallyNew[x], config.getBitlyLogin(), config.getBitlyKey());
+        if (shortie == '') {
+            this.url = shortie;
+        }
+
+        this.emit('shortened');
+    }
+}
+
+var app = new Application();
+app.on('shortened', function() {
+    cloudapp.openUrl(this.url, config.getBrowser());
 });
 
 
