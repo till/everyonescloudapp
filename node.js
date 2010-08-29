@@ -79,7 +79,7 @@ Application.prototype.handleNew = function (reallyNew) {
             this.config.getBitlyKey()
         );
 
-        if (shortie == '') {
+        if (shortie != '') {
             this.url = shortie;
         }
 
@@ -101,6 +101,7 @@ Application.prototype.setConfig = function (config) {
 var app = new Application();
 app.setConfig(config);
 app.on('shortened', function() {
+    cloudapp.copy(this.url);
     cloudapp.openUrl(this.url, config.getBrowser());
 });
 
